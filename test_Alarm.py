@@ -41,15 +41,15 @@ def enter_to_plate_alarm(driver_nms):
     # logger.info(f"numbeeer {data_row_key}")
     
     # table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    # if table !=None: 
-    #     lenOfTable_before_scroll = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
-    #     logger.info(f"lenOfTable {lenOfTable_before_scroll}")
-    #     sleep(3)
-    #     driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")
-    #     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    #     sleep(10)
-    #     lenOfTable_after_scroll = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
-    #     assert lenOfTable_after_scroll!=lenOfTable_before_scroll
+    if table !=None: 
+        lenOfTable_before_scroll = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
+        logger.info(f"lenOfTable {lenOfTable_before_scroll}")
+        sleep(3)
+        driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")
+        table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
+        sleep(10)
+        lenOfTable_after_scroll = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
+        assert lenOfTable_after_scroll!=lenOfTable_before_scroll
     # row = []
     # for i in range(lenOfTable):
     #     row[i] = driver.find_element('xpath',f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+2}]")
