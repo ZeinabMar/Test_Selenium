@@ -30,7 +30,8 @@ login_data = (login(1,{'url':'http://192.168.5.190:3000/auth/login', 'password' 
 # new_ip = driver.find_element("id", "proceed-link")
 # new_ip.click()
 def LOGIN(driver_nms, data_login):
-    
+    driver_nms.maximize_window()
+    sleep(4)
     data_set = data_login.expected_result_Set
     driver_nms.get(data_set['url'])
     User = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//input[@id='nms_login_username']")  
