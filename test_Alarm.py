@@ -23,8 +23,8 @@ action = ActionChains(driver=driver)
 def go_to_current_Alarm(driver_nms):
     Fault = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='alarm-menu']//span")
     Fault.click() 
-    Current_Alarm = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-test-id='alarm_page']//div[@data-node-key='currentAlarms']")  
-    assert Current_Alarm.text=="currentAlarms"
+    Current_Alarm = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-node-key='currentAlarm'][contains(.,'Current Alarm')]")  
+    assert Current_Alarm.text=="Current Alarm"
     Current_Alarm.click()
     assert Current_Alarm.get_attribute('class') == 'ant-tabs-tab ant-tabs-tab-active'
     footer = driver.find_element('xpath', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']")
@@ -36,6 +36,7 @@ def go_to_current_Alarm(driver_nms):
     assert item.get_attribute('data-value') == '0'
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
     assert table != None
+    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
 
 
 def scroll_action(driver_nms):
@@ -92,14 +93,16 @@ def scroll_action(driver_nms):
 def sort_click(driver_nms, action, number_of_th):
     sort_element = driver_nms.find_element('xpath',f"//div[@class='ant-table-header']//thead[@class='ant-table-thead']//tr//th[{number_of_th}]")
     action.click(sort_element).perform()
-    table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
+    table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']")
     rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
 
-def read_content_of_row(driver_nms, number_of_td):
+
+def read_content_of_column(driver_nms, number_of_column):
     text_of_rows = []
     rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
-    for i in range(0,len(rows)):
-        text_of_element = driver_nms.find_element('xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_td}]//div").text
+    logger.info(f"leeeeeen {len(rows)}")
+    for i in range(1,len(rows)):
+        text_of_element = driver_nms.find_element('xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_column}]//div").text
         text_of_rows.append(text_of_element)
     return  text_of_rows   
 
@@ -112,14 +115,14 @@ def Sort_Process_For_Any_Column(driver_nms, action, number_of_td_th):
 
     rows_before_sort = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     assert len(rows_before_sort)!=0
-    read_content_of_row_before_sort = read_content_of_row(driver_nms, number_of_td = number_of_td_th)
+    read_content_of_row_before_sort = read_content_of_column(driver_nms, number_of_column = number_of_td_th)
     assert len(read_content_of_row_before_sort)!=0
     sort_click(driver_nms= driver_nms, action=action, number_of_th=number_of_td_th)
     rows_after_sort = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     assert len(rows_after_sort) != 0
     assert len(rows_after_sort) == len(rows_before_sort)
     sorted_given_content = sorted(read_content_of_row_before_sort)
-    read_content_of_row_after_sort = read_content_of_row(driver_nms, number_of_td = number_of_td_th)
+    read_content_of_row_after_sort = read_content_of_column(driver_nms, number_of_column = number_of_td_th)
 
     assert len(sorted_given_content) != 0
     logger.info(f"read_content_of_row_after_sort{read_content_of_row_after_sort}")
@@ -151,7 +154,7 @@ def Manage_Sort_In_All_Columns(driver_nms, act, category):
 
 
 def test_alarm(driver=driver):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.190:3000/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
+    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(driver_nms=driver)
     Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Alarm Name")
     Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Alarm Category")
