@@ -34,6 +34,11 @@ def LOGIN(driver_nms, data_login):
     sleep(4)
     data_set = data_login.expected_result_Set
     driver_nms.get(data_set['url'])
+    sleep(3)
+    hide_advance_key = Wait_For_Appearance(driver_nms, "xpath", "//button[@id='details-button']")
+    hide_advance_key.click()
+    new_ip = Wait_For_Appearance(driver_nms, "id", "proceed-link")
+    new_ip.click()
     User = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//input[@id='nms_login_username']")  
     User.send_keys(data_set['user'])
     Password = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//input[@id='nms_login_password']")  

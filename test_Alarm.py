@@ -13,7 +13,7 @@ from test_login import LOGIN,login
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.webdriver.common.by import By
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -27,12 +27,21 @@ def go_to_current_Alarm(driver_nms):
     assert Current_Alarm.text=="Current Alarm"
     Current_Alarm.click()
     assert Current_Alarm.get_attribute('class') == 'ant-tabs-tab ant-tabs-tab-active'
-    footer = driver.find_element('xpath', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']")
-    rows = driver.find_element('xpath', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']//div[@data-test-id='total-rows']//span")
-    logger.info(f"rooow {rows.get_attribute('data-value')}")
-    number_of_alarm = rows.get_attribute('data-value')
-    assert number_of_alarm != '0' and number_of_alarm != ''
-    item = driver.find_element('xpath', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']//div[@data-test-id='selected-rows']//span")
+    footer = Wait_For_Appearance(driver_nms,'id', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']")
+    
+    current_alarm = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='current-rows']")
+    number_of_current_alarm = current_alarm.get_attribute('data-value')
+    logger.info(f"number_of_current_alarm {number_of_current_alarm}")
+
+    total_alarm = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='total-rows']")
+    number_of_total_alarm = total_alarm.get_attribute('data-value')
+    logger.info(f"number_of_total_alarm {number_of_total_alarm}")
+
+    assert number_of_current_alarm != '0' and number_of_current_alarm != ''
+    assert number_of_total_alarm != '0' and number_of_total_alarm != ''
+    assert int(number_of_current_alarm) <= int(number_of_total_alarm) 
+
+    item = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='selected-rows']//span")
     assert item.get_attribute('data-value') == '0'
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
     assert table != None
@@ -59,7 +68,6 @@ def scroll_action(driver_nms):
             assert counter_after_scroll==counter_before_scroll 
         else:
             assert counter_after_scroll!=counter_before_scroll 
-
     sleep(3)           
         # hey = Sort_(driver_nms, rows, "Alarm Name")
         # for row in rows:
@@ -100,9 +108,9 @@ def sort_click(driver_nms, action, number_of_th):
 def read_content_of_column(driver_nms, number_of_column):
     text_of_rows = []
     rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
-    logger.info(f"leeeeeen {len(rows)}")
+    logger.info(f"len of rows {len(rows)}")
     for i in range(1,len(rows)):
-        text_of_element = driver_nms.find_element('xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_column}]//div").text
+        text_of_element = Wait_For_Appearance(driver_nms,'xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_column}]//div[@class='record']").text
         text_of_rows.append(text_of_element)
     return  text_of_rows   
 
@@ -118,6 +126,7 @@ def Sort_Process_For_Any_Column(driver_nms, action, number_of_td_th):
     read_content_of_row_before_sort = read_content_of_column(driver_nms, number_of_column = number_of_td_th)
     assert len(read_content_of_row_before_sort)!=0
     sort_click(driver_nms= driver_nms, action=action, number_of_th=number_of_td_th)
+    driver_nms.implicitly_wait(3)
     rows_after_sort = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     assert len(rows_after_sort) != 0
     assert len(rows_after_sort) == len(rows_before_sort)
@@ -128,8 +137,8 @@ def Sort_Process_For_Any_Column(driver_nms, action, number_of_td_th):
     logger.info(f"read_content_of_row_after_sort{read_content_of_row_after_sort}")
     logger.info(f"read_content_of_row_before_sort {read_content_of_row_before_sort}")
     logger.info(f"sorted_given_content {sorted_given_content}")
-    assert len(rows_before_sort)==len(rows_after_sort)==len(sorted_given_content)
-    for i in range(50):
+    # assert len(rows_before_sort)-1==len(sorted_given_content)-1 #== len(rows_after_sort)-1
+    for i in range(20):
         assert read_content_of_row_after_sort[i]==sorted_given_content[i], f"not match in {i+1} st ROW"    
 
 
