@@ -67,7 +67,7 @@ def select_one_filter_in_one_column(driver_nms, action, number_of_column, all_fi
         logger.info(f"my filter is {filter}")
         logger.info(f"//div[@title='{filter}']")
         filter_element = Wait_For_Appearance(driver_nms, 'xpath', f"//div[@class='rc-virtual-list-holder-inner']//div[@title='{filter}']//div[@class='ant-select-item-option-content']//label") 
-        driver.execute_script("arguments[0].click();", filter_element)
+        driver_nms.execute_script("arguments[0].click();", filter_element)
         apply_icon = Wait_For_Appearance(driver_nms, 'xpath', "//span[contains(.,'Apply Filter')]")
         apply_icon.click()
         driver_nms.implicitly_wait(2)
@@ -78,6 +78,7 @@ def select_one_filter_in_one_column(driver_nms, action, number_of_column, all_fi
         filter_element = Wait_For_Appearance(driver_nms, 'xpath', f"//div[@class='rc-virtual-list-holder-inner']//div[@title='{filter}']//div[@class='ant-select-item-option-content']//label") 
         driver.execute_script("arguments[0].click();", filter_element)
         apply_icon = Wait_For_Appearance(driver_nms, 'xpath', "//span[contains(.,'Apply Filter')]")
+        
         apply_icon.click()
         sleep(3)    
     rows_without_filter_unappliying = read_content_of_column(driver_nms, number_of_column = number_of_column)
@@ -108,7 +109,7 @@ def apply_filter_in_special_column(driver_nms, act, category, all_filters):
     
 
 def test_one_filter(driver=driver):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.190:3000/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
+    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(driver_nms=driver)
     demontration_of_filter_toolbar(driver_nms=driver)
     apply_filter_in_special_column(driver_nms=driver, act=action, category= "Alarm Name", all_filters=filter_of_alarm_name)

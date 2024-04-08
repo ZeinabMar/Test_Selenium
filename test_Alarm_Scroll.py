@@ -20,6 +20,18 @@ logger = logging.getLogger(__name__)
 driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 action = ActionChains(driver=driver)
 
+
+
+def read_special_row(driver_nms, row):
+    text_of_one_row_in_all_columns_of_its  = []
+    rows = Wait_For_Appearance_whole_of_something(driver_nms, 'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
+    logger.info(f"len of rows {len(rows)}")
+    index = (4,5,8,9,11)
+    for i in index:
+        text_of_element = Wait_For_Appearance(driver_nms,'xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{row}]//td[{i}]//div[@class='record']").text
+        text_of_one_row_in_all_columns_of_its .append(text_of_element)
+    return  text_of_one_row_in_all_columns_of_its  
+
 def go_to_current_Alarm(driver_nms):
     Fault = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='alarm-menu']//span")
     Fault.click() 
@@ -52,23 +64,34 @@ def scroll_action(driver_nms):
     counter_before_scroll = 0
     counter_after_scroll = 0
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
-    logger.info(f"rows {rows}")
-    if table !=None: 
-        lenOfTable = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
-        for row in rows:
-            if row.is_displayed():
-                counter_before_scroll = counter_before_scroll+1
-        driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")
-        sleep(3)
-        for row in rows:
-            if row.is_displayed():
-                counter_after_scroll = counter_after_scroll+1
-        if counter_before_scroll <101:
-            assert counter_after_scroll==counter_before_scroll 
-        else:
-            assert counter_after_scroll!=counter_before_scroll 
-    sleep(3)           
+    rows_before_scroll = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
+    assert rows_before_scroll != 0
+    if table != None:
+        first_row_before_scroll = read_special_row(driver_nms, 2)
+    for i in range(0,25):
+        driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")        
+    rows_after_scroll = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
+    table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
+    if table != None:
+        first_row_after_scroll = read_special_row(driver_nms, 2)
+    assert len(rows_after_scroll) != 0
+    assert first_row_after_scroll != first_row_before_scroll    
+    # logger.info(f"rows {rows}")
+    # if table !=None: 
+    #     lenOfTable = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
+    #     for row in rows:
+    #         if row.is_displayed():
+    #             counter_before_scroll = counter_before_scroll+1
+    #     driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")
+    #     sleep(3)
+    #     for row in rows:
+    #         if row.is_displayed():
+    #             counter_after_scroll = counter_after_scroll+1
+    #     if counter_before_scroll <101:
+    #         assert counter_after_scroll==counter_before_scroll 
+    #     else:
+    #         assert counter_after_scroll!=counter_before_scroll 
+    # sleep(3)           
         # hey = Sort_(driver_nms, rows, "Alarm Name")
         # for row in rows:
         #     element = driver_nms.find_element('xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[2]//td[3]//div")
@@ -100,18 +123,7 @@ def scroll_action(driver_nms):
 
 
 
-def read_content_of_column(driver_nms, number_of_column):
-    text_of_rows = []
-    rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
-    logger.info(f"len of rows {len(rows)}")
-    for i in range(1,len(rows)):
-        text_of_element = Wait_For_Appearance(driver_nms,'xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_column}]//div[@class='record']").text
-        text_of_rows.append(text_of_element)
-    return  text_of_rows   
-
-
-
 def test_alarm_scroll(driver=driver):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.190:3000/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
+    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(driver_nms=driver)
     scroll_action(driver_nms=driver)
