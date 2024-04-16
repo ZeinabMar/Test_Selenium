@@ -59,23 +59,36 @@ def go_to_current_Alarm(driver_nms):
     assert table != None
     rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
 
+def read_content_of_column(driver_nms, number_of_column):
+    text_of_rows = []
+    rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
+    logger.info(f"len of rows {len(rows)}")
+    for i in range(1,len(rows)):
+        text_of_element = Wait_For_Appearance(driver_nms,'xpath', f"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr[{i+1}]//td[{number_of_column}]//div[@class='record']").text
+        text_of_rows.append(text_of_element)
+    driver_nms.implicitly_wait(20)
+    return  text_of_rows 
 
-def scroll_action(driver_nms):
+def scroll_action(driver_nms, number_of_td_th):
     counter_before_scroll = 0
     counter_after_scroll = 0
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
     rows_before_scroll = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     assert rows_before_scroll != 0
+    read_content_of_row_before_scroll = read_content_of_column(driver_nms, number_of_column = number_of_td_th)
     if table != None:
-        first_row_before_scroll = read_special_row(driver_nms, 2)
-    for i in range(0,25):
+        first_row_before_scroll = read_special_row(driver_nms, 2)       
+    for i in range(0,3):
         driver_nms.execute_script("document.querySelector('div tbody tr:last-child td:last-child').scrollIntoView()")        
+    sleep(2)
     rows_after_scroll = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
     if table != None:
         first_row_after_scroll = read_special_row(driver_nms, 2)
     assert len(rows_after_scroll) != 0
-    assert first_row_after_scroll != first_row_before_scroll    
+    assert first_row_after_scroll != first_row_before_scroll   
+    read_content_of_row_after_scroll = read_content_of_column(driver_nms, number_of_column = number_of_td_th)
+    assert read_content_of_row_after_scroll != read_content_of_row_before_scroll
     # logger.info(f"rows {rows}")
     # if table !=None: 
     #     lenOfTable = driver_nms.execute_script("return document.querySelector('.ant-table-tbody').rows.length")
@@ -126,4 +139,4 @@ def scroll_action(driver_nms):
 def test_alarm_scroll(driver=driver):
     LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(driver_nms=driver)
-    scroll_action(driver_nms=driver)
+    scroll_action(driver_nms=driver, number_of_td_th=4)
