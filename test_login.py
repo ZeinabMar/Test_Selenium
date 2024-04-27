@@ -11,7 +11,7 @@ from collections import namedtuple
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
+pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.snmp_dev("olt_nms")]
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
