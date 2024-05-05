@@ -17,9 +17,9 @@ from selenium.webdriver.common.by import By
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-driver.delete_all_cookies()
-action = ActionChains(driver=driver)
+# driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+# driver.delete_all_cookies()
+# action = ActionChains(driver=driver)
  
 
 def go_to_current_Alarm(driver_nms):
@@ -94,6 +94,8 @@ def Sort_Process_For_Any_Column(driver_nms, action, number_of_td_th):
 
 
 def Manage_Sort_In_All_Columns(driver_nms, act, category):
+    driver_nms = web_interface_module.driver
+    act = driver_nms.action
     if category == "Alarm Name":
         Sort_Process_For_Any_Column(driver_nms, action =act, number_of_td_th=4)
     if category == "Alarm Category":
@@ -113,16 +115,16 @@ def Manage_Sort_In_All_Columns(driver_nms, act, category):
     
 
 
-def test_alarm(driver=driver):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
-    go_to_current_Alarm(driver_nms=driver)
-    Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Alarm Name")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Alarm Category")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Acknowledge User")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Node IP")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Address")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Clear Time")
-    # Manage_Sort_In_All_Columns(driver_nms=driver, act=action, category= "Time Accurance")
+def test_Current_Alarm_Sort(web_interface_module):
+    LOGIN(driver, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
+    go_to_current_Alarm(web_interface_module)
+    Manage_Sort_In_All_Columns(web_interface_module, category= "Alarm Name")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Alarm Category")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Acknowledge User")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Node IP")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Address")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Clear Time")
+    # Manage_Sort_In_All_Columns(web_interface_module, category= "Time Accurance")
 
 
 

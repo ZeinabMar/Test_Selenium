@@ -11,30 +11,25 @@ from collections import namedtuple
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.snmp_dev("olt_nms")]
+pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.web_dev("olt_nms")]
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-action = ActionChains(driver=driver)
+# logging.basicConfig(level=logging.DEBUG)
+# logger = logging.getLogger(__name__)
+# driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+# action = ActionChains(driver=driver)
 
 
 login = namedtuple('login', ['index', 'expected_result_Set', 'result'])
 login.__new__.__defaults__ = (None, {}, None)
 
-login_data = (login(1,{'url':'http://192.168.5.190:3000/auth/login', 'password' :"root", 'user':'root'}, 'Pass'),
-              login(2,{'url':'http://192.168.5.190:3000/auth/login', 'password' :"root", 'user':'4567'}, 'Fail'),)
-# hide_advance_key = driver.find_element("id", "details-button")
-# hide_advance_key.click()
+login_data = (login(1,{'password' :"root", 'user':'root'}, 'Pass'),
+              login(2,{'password' :"root", 'user':'4567'}, 'Fail'),)
 
-# new_ip = driver.find_element("id", "proceed-link")
-# new_ip.click()
-def LOGIN(driver_nms, data_login):
+def LOGIN(web_interface_module, data_login):
     # driver_nms.maximize_window()
+    web_interface_module.get_url()
     sleep(4)
-    data_set = data_login.expected_result_Set
-    driver_nms.get(data_set['url'])
-    sleep(3)
+    driver_nms = web_interface_module.driver
     hide_advance_key = Wait_For_Appearance(driver_nms, "xpath", "//button[@id='details-button']")
     hide_advance_key.click()
     new_ip = Wait_For_Appearance(driver_nms, "id", "proceed-link")
@@ -66,7 +61,7 @@ def LOGIN(driver_nms, data_login):
         # error_message = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='userManagement-menu']//span").text
         # assert error_message == "The desired user could not be found, error code: 10038."
 
-def test_Login(driver=driver):
+def test_Login(web_interface_module):
     for data in login_data:
-        LOGIN(driver,data)
+        LOGIN(web_interface_module,data)
 

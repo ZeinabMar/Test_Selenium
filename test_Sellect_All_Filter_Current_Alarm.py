@@ -13,7 +13,7 @@ from test_login import LOGIN,login
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from test_Alarm_Sort import go_to_current_Alarm
+from test_Current_Alarm_Sort import go_to_current_Alarm
 from selenium.webdriver.support.ui import Select
 
 
@@ -35,7 +35,8 @@ multi_filter_of_node_ip = ["10.41.84.6", "10.50.39.3"]
 multi_filter_of_address = []
 multi_filter_of_acknowledge_user = []
 
-def demontration_of_filter_toolbar(driver_nms):
+def demontration_of_filter_toolbar(web_interface_module):
+    driver_nms = web_interface_module.driver
     filter_icon = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-header']//th[@class='ant-table-cell filter-head']")  
     filter_icon.click()
     toolbars_filter = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-header']//tfoot[@class='ant-table-summary']")  
@@ -107,8 +108,9 @@ def unselect_multi_filter_in_one_column(driver_nms, rows_without_filter, number_
     assert rows_without_filter == rows_without_filter_unappliying
 
 
-def apply_filter_in_special_column(driver_nms, act, category, all_filters):
-    
+def apply_filter_in_special_column(web_interface_module, category, all_filters):
+    driver_nms = web_interface_module.driver
+    act = web_interface_module.action
     if category == "Alarm Name":
         rows_without_filter = read_content_of_column(driver_nms, number_of_column = 4)
         select_filter_menu(driver_nms, number_of_column=4)
@@ -146,12 +148,12 @@ def apply_filter_in_special_column(driver_nms, act, category, all_filters):
         unselect_multi_filter_in_one_column(driver_nms, rows_without_filter = rows_without_filter, number_of_column=11 , all_filters=all_filters, with_close_icon=False)
 
    
-def test_multi_filter(driver=driver, action=action):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
-    go_to_current_Alarm(driver_nms=driver)
-    demontration_of_filter_toolbar(driver_nms=driver)
-    apply_filter_in_special_column(driver_nms=driver, act=action, category= "Alarm Name", all_filters=multi_filter_of_alarm_name)
-    apply_filter_in_special_column(driver_nms=driver, act=action, category= "Alarm Category", all_filters=multi_filter_of_alarm_category)
-    apply_filter_in_special_column(driver_nms=driver, act=action, category= "Node IP", all_filters=multi_filter_of_node_ip)
+def test_multi_filter(web_interface_module):
+    LOGIN(driver, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
+    go_to_current_Alarm(web_interface_module)
+    demontration_of_filter_toolbar(web_interface_module)
+    apply_filter_in_special_column(web_interface_module, category= "Alarm Name", all_filters=multi_filter_of_alarm_name)
+    apply_filter_in_special_column(web_interface_module, category= "Alarm Category", all_filters=multi_filter_of_alarm_category)
+    apply_filter_in_special_column(web_interface_module, category= "Node IP", all_filters=multi_filter_of_node_ip)
 
 

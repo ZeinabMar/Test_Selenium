@@ -17,8 +17,8 @@ from selenium.webdriver.common.by import By
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
-action = ActionChains(driver=driver)
+# driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+# action = ActionChains(driver=driver)
 
 
 
@@ -32,7 +32,8 @@ def read_special_row(driver_nms, row):
         text_of_one_row_in_all_columns_of_its .append(text_of_element)
     return  text_of_one_row_in_all_columns_of_its  
 
-def go_to_current_Alarm(driver_nms):
+def go_to_current_Alarm(web_interface_module):
+    driver_nms = web_interface_module.driver
     Fault = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='alarm-menu']//span")
     Fault.click() 
     Current_Alarm = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-node-key='currentAlarm'][contains(.,'Current Alarm')]")  
@@ -69,7 +70,8 @@ def read_content_of_column(driver_nms, number_of_column):
     driver_nms.implicitly_wait(20)
     return  text_of_rows 
 
-def scroll_action(driver_nms, number_of_td_th):
+def scroll_action(web_interface_module, number_of_td_th):
+    driver_nms = web_interface_module.driver
     counter_before_scroll = 0
     counter_after_scroll = 0
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
@@ -136,7 +138,7 @@ def scroll_action(driver_nms, number_of_td_th):
 
 
 
-def test_alarm_scroll(driver=driver):
-    LOGIN(driver, login(1,{'url':'http://192.168.5.183/auth/login', 'password' :"root", 'user':'root'}, 'Pass'))
-    go_to_current_Alarm(driver_nms=driver)
-    scroll_action(driver_nms=driver, number_of_td_th=4)
+def test_Current_Alarm_Scroll(web_interface_module):
+    LOGIN(web_interface_module, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
+    go_to_current_Alarm(web_interface_module)
+    scroll_action(web_interface_module, number_of_td_th=4)
