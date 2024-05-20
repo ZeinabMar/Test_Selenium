@@ -20,12 +20,7 @@ from selenium.webdriver.support.ui import Select
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-options = webdriver.ChromeOptions()
-options.add_argument("--start-maximized")
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(),options=options)
-driver.delete_all_cookies()
-# driver.fullscreen_window()
-action = ActionChains(driver=driver)
+pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.web_dev("olt_nms")]
 
 multi_filter_of_alarm_name = ["ONU_OFF", "PON_LOS", "OLT_PON_Unconfig_ONU"]
 multi_filter_of_severity = []

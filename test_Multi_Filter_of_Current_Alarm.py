@@ -20,12 +20,7 @@ from selenium.webdriver.support.ui import Select
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
-options = webdriver.ChromeOptions()
-options.add_argument("--start-maximized")
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(),options=options)
-driver.delete_all_cookies()
-# driver.fullscreen_window()
-action = ActionChains(driver=driver)
+pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.web_dev("olt_nms")]
 
 multi_filter_of_alarm_name = ["ONU_OFF", "PON_LOS", "OLT_PON_Unconfig_ONU"]
 multi_filter_of_severity = []
@@ -148,12 +143,12 @@ def apply_filter_in_special_column(web_interface_module, category, all_filters):
         unselect_multi_filter_in_one_column(driver_nms, rows_without_filter = rows_without_filter, number_of_column=11 , all_filters=all_filters, with_close_icon=False)
 
    
-def test_multi_filter(web_interface_module, action=action):
+def test_multi_filter(web_interface_module):
     LOGIN(driver, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(web_interface_module)
     demontration_of_filter_toolbar(web_interface_module)
     apply_filter_in_special_column(web_interface_module, category= "Alarm Name", all_filters=multi_filter_of_alarm_name)
     apply_filter_in_special_column(web_interface_module, category= "Alarm Category", all_filters=multi_filter_of_alarm_category)
-    apply_filter_in_special_column(driver_nms, category= "Node IP", all_filters=multi_filter_of_node_ip)
+    apply_filter_in_special_column(web_interface_module, category= "Node IP", all_filters=multi_filter_of_node_ip)
 
 

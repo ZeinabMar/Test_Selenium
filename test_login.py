@@ -27,13 +27,15 @@ login_data = (login(1,{'password' :"root", 'user':'root'}, 'Pass'),
 
 def LOGIN(web_interface_module, data_login):
     # driver_nms.maximize_window()
-    web_interface_module.get_url()
+    # web_interface_module.get_url()
     sleep(4)
+    data_set = data_login.expected_result_Set
     driver_nms = web_interface_module.driver
-    hide_advance_key = Wait_For_Appearance(driver_nms, "xpath", "//button[@id='details-button']")
-    hide_advance_key.click()
-    new_ip = Wait_For_Appearance(driver_nms, "id", "proceed-link")
-    new_ip.click()
+    driver_nms.maximize_window()
+    # hide_advance_key = Wait_For_Appearance(driver_nms, "xpath", "//button[@id='details-button']")
+    # hide_advance_key.click()
+    # new_ip = Wait_For_Appearance(driver_nms, "id", "proceed-link")
+    # new_ip.click()
     User = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//input[@id='nms_login_username']")  
     User.send_keys(data_set['user'])
     Password = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//input[@id='nms_login_password']")  
@@ -41,7 +43,7 @@ def LOGIN(web_interface_module, data_login):
     enter_key = Wait_For_Appearance(driver_nms,'xpath',"//form[@id='nms_login']//button[@type='submit']")  
     sleep(2)
     enter_key.click() 
-    sleep(0.5)   
+    sleep(2)   
     if data_login.result=="Pass":
         menue = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-layout-sider-children']")  
         dashboard = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='dashboard-menu']//span").text
@@ -57,11 +59,13 @@ def LOGIN(web_interface_module, data_login):
         usermanagement = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='userManagement-menu']//span").text
         assert usermanagement== "USER MANAGEMENT"
     else:
-        assert not(driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='dashboard-menu']//span"))
+        assert driver_nms.find_element('xpath', "//div[@class, 'ant-notification ant-notification-topRight css-18h3yg2 ant-notification-stack ant-notification-stack-expanded]")
         # error_message = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='userManagement-menu']//span").text
         # assert error_message == "The desired user could not be found, error code: 10038."
 
 def test_Login(web_interface_module):
     for data in login_data:
+        web_interface_module.get_url()
         LOGIN(web_interface_module,data)
+        sleep(3)
 

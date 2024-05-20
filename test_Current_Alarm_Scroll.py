@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 # driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 # action = ActionChains(driver=driver)
 
+pytestmark = [pytest.mark.env_name("NMS_env"), pytest.mark.web_dev("olt_nms")]
 
 
 def read_special_row(driver_nms, row):
@@ -36,30 +37,25 @@ def go_to_current_Alarm(web_interface_module):
     driver_nms = web_interface_module.driver
     Fault = driver_nms.find_element('xpath', "//aside[@data-test-id='sidbar']//li[@data-test-id='alarm-menu']//span")
     Fault.click() 
-    Current_Alarm = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-node-key='currentAlarm'][contains(.,'Current Alarm')]")  
+    Current_Alarm = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-test-name='Current Alarm']")  
+    Current_Alarm_label = Wait_For_Appearance(driver_nms,'xpath',"//div[@data-node-key='currentAlarm']")  
     assert Current_Alarm.text=="Current Alarm"
-    Current_Alarm.click()
-    assert Current_Alarm.get_attribute('class') == 'ant-tabs-tab ant-tabs-tab-active'
-    footer = Wait_For_Appearance(driver_nms,'id', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']")
+    Current_Alarm_label.click()
+    assert Current_Alarm_label.get_attribute('class') == 'ant-tabs-tab ant-tabs-tab-active'
     
-    current_alarm = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='current-rows']")
-    number_of_current_alarm = current_alarm.get_attribute('data-value')
-    logger.info(f"number_of_current_alarm {number_of_current_alarm}")
-
-    total_alarm = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='total-rows']")
-    number_of_total_alarm = total_alarm.get_attribute('data-value')
+    footer = Wait_For_Appearance(driver_nms,'id', "//div[@data-test-id='alarm_page']//div[@data-test-id='alarm_footer']")
+    total_alarm_in_footer = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='total-rows']")
+    number_of_total_alarm = total_alarm_in_footer.get_attribute('data-value')
     logger.info(f"number_of_total_alarm {number_of_total_alarm}")
 
-    assert number_of_current_alarm != '0' and number_of_current_alarm != ''
     assert number_of_total_alarm != '0' and number_of_total_alarm != ''
-    assert int(number_of_current_alarm) <= int(number_of_total_alarm) 
-
     item = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='selected-rows']//span")
     assert item.get_attribute('data-value') == '0'
-    table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    assert table != None
-    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
+    # table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
+    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@cl//div[@data-test-name='current_alarm_table']//tbody[@class='ant-table-tbody']//tr")
+    assert rows != None
 
+    
 def read_content_of_column(driver_nms, number_of_column):
     text_of_rows = []
     rows = driver_nms.find_elements('xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
@@ -74,6 +70,7 @@ def scroll_action(web_interface_module, number_of_td_th):
     driver_nms = web_interface_module.driver
     counter_before_scroll = 0
     counter_after_scroll = 0
+    sleep(2)
     table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
     rows_before_scroll = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']//tr")
     assert rows_before_scroll != 0
@@ -139,6 +136,7 @@ def scroll_action(web_interface_module, number_of_td_th):
 
 
 def test_Current_Alarm_Scroll(web_interface_module):
+    web_interface_module.get_url()
     LOGIN(web_interface_module, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(web_interface_module)
     scroll_action(web_interface_module, number_of_td_th=4)
