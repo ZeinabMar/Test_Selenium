@@ -73,7 +73,7 @@ def select_multi_filter_in_one_column(driver_nms, action, number_of_column, all_
     for filter in all_filters:
         select_filter_menu(driver_nms, number_of_column=number_of_column)
         filter_element = Wait_For_Appearance(driver_nms, 'xpath', f"//div[@class='rc-virtual-list-holder-inner']//div[@title='{filter}']//div[@class='ant-select-item-option-content']//label") 
-        driver.execute_script("arguments[0].click();", filter_element)
+        driver_nms.execute_script("arguments[0].click();", filter_element)
         # apply_icon = Wait_For_Appearance(driver_nms, 'xpath', "//span[contains(.,'Apply Filter')]")
         apply_icon = WebDriverWait(driver_nms, 30).until(EC.element_to_be_clickable(('xpath', "//span[contains(.,'Apply Filter')]")))
         apply_icon.click()
@@ -144,11 +144,12 @@ def apply_filter_in_special_column(web_interface_module, category, all_filters):
 
    
 def test_multi_filter(web_interface_module):
-    LOGIN(driver, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
+    web_interface_module.get_url()
+    LOGIN(web_interface_module, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(web_interface_module)
     demontration_of_filter_toolbar(web_interface_module)
     apply_filter_in_special_column(web_interface_module, category= "Alarm Name", all_filters=multi_filter_of_alarm_name)
     apply_filter_in_special_column(web_interface_module, category= "Alarm Category", all_filters=multi_filter_of_alarm_category)
     apply_filter_in_special_column(web_interface_module, category= "Node IP", all_filters=multi_filter_of_node_ip)
-
+    web_interface_module.close()
 

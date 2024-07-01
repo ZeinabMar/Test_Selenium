@@ -51,8 +51,7 @@ def go_to_current_Alarm(web_interface_module):
     assert number_of_total_alarm != '0' and number_of_total_alarm != ''
     item = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='selected-rows']//span")
     assert item.get_attribute('data-value') == '0'
-    # table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@cl//div[@data-test-name='current_alarm_table']//tbody[@class='ant-table-tbody']//tr")
+    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@data-test-name='current_alarm_table']//tbody[@class='ant-table-tbody']//tr")
     assert rows != None
 
     
@@ -140,3 +139,4 @@ def test_Current_Alarm_Scroll(web_interface_module):
     LOGIN(web_interface_module, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
     go_to_current_Alarm(web_interface_module)
     scroll_action(web_interface_module, number_of_td_th=4)
+    web_interface_module.close()

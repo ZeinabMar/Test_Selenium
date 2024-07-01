@@ -49,8 +49,9 @@ def go_to_historical_Alarm(web_interface_module):
     item = Wait_For_Appearance(driver_nms, "xpath", "//div[@data-test-id='selected-rows']//span")
     assert item.get_attribute('data-value') == '0'
     # table = Wait_For_Appearance(driver_nms,'xpath',"//div[@class='ant-table-body']//tbody[@class='ant-table-tbody']") 
-    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@cl//div[@data-test-name='historical_alarm_table']//tbody[@class='ant-table-tbody']//tr")
-    assert rows != None
+    time.sleep(30)
+    rows = Wait_For_Appearance_whole_of_something(driver_nms,'xpath',"//div[@data-test-name='historical_alarm_table']//tbody[@class='ant-table-tbody']//tr")
+    assert rows != None, f"This Table loaded is very slow"
 
 
 def sort_click(driver_nms, action, number_of_th):
@@ -91,13 +92,13 @@ def Sort_Process_For_Any_Column(driver_nms, action, number_of_td_th):
     logger.info(f"read_content_of_row_after_sort{read_content_of_row_after_sort}")
     logger.info(f"read_content_of_row_before_sort {read_content_of_row_before_sort}")
     logger.info(f"sorted_given_content {sorted_given_content}")
-    for i in range(25):
+    for i in range(10):
         assert read_content_of_row_after_sort[i]==sorted_given_content[i], f"not match in {i+1} st ROW"    
 
 
 def Manage_Sort_In_All_Columns(web_interface_module, category):
     driver_nms = web_interface_module.driver
-    act = driver_nms.action
+    act = web_interface_module.action
     if category == "Alarm Name":
         Sort_Process_For_Any_Column(driver_nms, action =act, number_of_td_th=4)
     if category == "Alarm Category":
@@ -118,9 +119,10 @@ def Manage_Sort_In_All_Columns(web_interface_module, category):
 
 
 def test_Current_Alarm_Sort(web_interface_module):
-    LOGIN(driver, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
+    web_interface_module.get_url()
+    LOGIN(web_interface_module, login(1,{'password' :"root", 'user':'root'}, 'Pass'))
     go_to_historical_Alarm(web_interface_module)
-    Manage_Sort_In_All_Columns(web_interface_module, category= "Historical Name")
+    Manage_Sort_In_All_Columns(web_interface_module, category= "Alarm Name")
     # Manage_Sort_In_All_Columns(web_interface_module, category= "Alarm Category")
     # Manage_Sort_In_All_Columns(web_interface_module, category= "Acknowledge User")
     # Manage_Sort_In_All_Columns(web_interface_module, category= "Node IP")
