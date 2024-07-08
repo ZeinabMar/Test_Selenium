@@ -617,3 +617,85 @@ Gdk-Message: 03:33:57.097: firefox: Fatal IO error 11 (Resource temporarily unav
 
 Exiting due to channel error.
 Exiting due to channel error.
+1719833362048	geckodriver	INFO	Listening on 127.0.0.1:52979
+1719833362547	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "56321" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileJwCCGX"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1719833369682	Marionette	INFO	Marionette enabled
+1719833369918	Marionette	INFO	Listening on port 32775
+WebDriver BiDi listening on ws://127.0.0.1:56321
+Read port: 32775
+1719833370461	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:56321/devtools/browser/cfb70a0f-1d43-449c-ad89-1f645c7e83c3
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://192.168.5.183."
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+1719833399689	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+1719833424841	Marionette	INFO	Stopped listening on port 32775
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt
+1719833512392	geckodriver	INFO	Listening on 127.0.0.1:45137
+1719833512930	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "44529" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilek7nXIM"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1719833514786	Marionette	INFO	Marionette enabled
+1719833514911	Marionette	INFO	Listening on port 42165
+WebDriver BiDi listening on ws://127.0.0.1:44529
+Read port: 42165
+1719833515202	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:44529/devtools/browser/1bbdce92-a42a-400f-981c-4d064c37d3b9
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://192.168.5.183."
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+1719833544942	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+Gdk-Message: 01:09:10.577: firefox: Fatal IO error 11 (Resource temporarily unavailable) on X server localhost:10.0.
+
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1719923076634	geckodriver	INFO	Listening on 127.0.0.1:54333
+1719923077221	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "33443" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofilesbBrLT"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1719923096002	Marionette	INFO	Marionette enabled
+1719923096358	Marionette	INFO	Listening on port 33911
+WebDriver BiDi listening on ws://127.0.0.1:33443
+Read port: 33911
+1719923096542	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+WARNING: At least one completion condition is taking too long to complete. Conditions: [{"name":"XPIProvider shutdown","state":"(none)","filename":"resource://gre/modules/addons/XPIProvider.sys.mjs","lineNumber":2622,"stack":["resource://gre/modules/addons/XPIProvider.sys.mjs:startup:2622","resource://gre/modules/AddonManager.sys.mjs:callProvider:227","resource://gre/modules/AddonManager.sys.mjs:_startProvider:536","resource://gre/modules/AddonManager.sys.mjs:startup:749","resource://gre/modules/AddonManager.sys.mjs:startup:3690","resource://gre/modules/amManager.sys.mjs:observe:73"]}] Barrier: quit-application-granted
+1719923300611	geckodriver	INFO	Listening on 127.0.0.1:42901
+1719923301128	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "33209" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileKHloFk"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1719923302650	Marionette	INFO	Marionette enabled
+1719923302833	Marionette	INFO	Listening on port 40031
+Read port: 40031
+WebDriver BiDi listening on ws://127.0.0.1:33209
+1719923303024	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:33209/devtools/browser/18d5af22-fba9-43cf-bb36-b4aeffab8190
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+1719923332863	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://192.168.5.183."
+JavaScript warning: https://192.168.5.183/static/js/245.52619898.chunk.js, line 2: Script terminated by timeout at:
+e/<@https://192.168.5.183/static/js/245.52619898.chunk.js:2:32671
+e@https://192.168.5.183/static/js/245.52619898.chunk.js:2:32672
+
+1719923523574	Marionette	INFO	Stopped listening on port 40031
+1719923573647	geckodriver	INFO	Listening on 127.0.0.1:33179
+1719923574186	mozrunner::runner	INFO	Running command: MOZ_CRASHREPORTER="1" MOZ_CRASHREPORTER_NO_REPORT="1" MOZ_CRASHREPORTER_SHUTDOWN="1" MOZ_NO_REMOTE="1" "/usr ... te" "--remote-debugging-port" "38199" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "/tmp/rust_mozprofileTbF1fs"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1719923575394	Marionette	INFO	Marionette enabled
+1719923575530	Marionette	INFO	Listening on port 36981
+Read port: 36981
+WebDriver BiDi listening on ws://127.0.0.1:38199
+1719923576504	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: ({})
+DevTools listening on ws://127.0.0.1:38199/devtools/browser/1d7c5a08-ea7d-44fc-be45-eaf1ab0c114a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://192.168.5.183."
+console.error: "update.locale" " file doesn't exist in either the application or GRE directories"
+1719923606217	addons.xpi	ERROR	System addon update list error SyntaxError: XMLHttpRequest.open: 'http://%(server)s/dummy-system-addons.xml' is not a valid URL.
+1719923626663	Marionette	INFO	Stopped listening on port 36981
+[GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt

@@ -7,9 +7,9 @@ DICT__SERVER = {
     'server_host': "http://192.168.5.183/auth/login",
     "webdriver" : "Firefox"
     }
-    
+  
 DICT__ENV = {
-    'olt_nms': DICT__SERVER
+    'olt_nms': DICT__SERVER,
 }
 
 
